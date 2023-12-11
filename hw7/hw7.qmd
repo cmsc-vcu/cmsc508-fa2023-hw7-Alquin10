@@ -1,6 +1,6 @@
 ---
 title: Homework 7 - Creating a resume database
-author: (your name goes here!)
+author: Alquin Cortez Jr
 date: last-modified
 format:
     html:
@@ -10,9 +10,9 @@ format:
         code-copy: true
 ---
 
-(include a brief description of what is in this document)
+the document serves as a comprehensive guide for a project involving the creation of a resume database. It includes database schema visualization, examples of data within the tables, and sample SQL queries to interact with the database
 
-(Please clean up any comments that I included.  This is a scaffold document.)
+
 
 GITHUB URL:  <your URL goes here!>
 
@@ -92,11 +92,12 @@ except Exception as e:
 
 ## Overview and description
 
-(briefly describe the project and the database)
+the document serves as a comprehensive guide for a project involving the creation of a resume database. It includes database schema visualization, examples of data within the tables, and sample SQL queries to interact with the database
+
 
 ## Crows-foot diagram
 
-(add a description of the diagram and what the reader is seeing.)
+This is showing how the order for some type of food company works. The main entities are Order, Customer, and Delivery Address. Within the Customer , the attributes are id, first_name, and last_name. The delivery address is id. 
 
 ```{mermaid}
 %%| echo: false
@@ -119,38 +120,106 @@ For the people, skills, and roles tables, provide a description of each table an
 
 ### People table
 
-The *people* table contains elements that describe ... 
-
-Below is a list of data in the *people* table.
+The `people` table contains detailed information about each employee, including their name, contact details, professional links, and the date they joined the company. It serves as a central repository for employee data.
 
 ```{python}
 #| echo: false
 #| eval: true
-sql = f"""
-select * from people;
+
+sql_query = pd.read_sql("""
+select
+  *
+from 
+  information_schema.columns
+where 
+  table_schema='23FA_users_cortezaa2';
 """
-## Add code to list roles table here
-try:
-    df = pd.read_sql(sql,cnx)
-    df
-except Exception as e:
-    message = str(e)
-    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
-    df = pd.DataFrame()
-df
+,cnx)
+
+sql_query.head(15)
+
+def show_table( table_name ):
+    """ Show a table using Display and Markdown """
+    # Note the use of f-strings to embed the variable name.
+    query = f"""
+    select
+        ordinal_position,column_name,column_type,column_key, is_nullable
+    from
+        information_schema.columns
+    where
+    table_schema='23FA_users_cortezaa2'
+        and table_name='{table_name}'
+    order by 
+        ordinal_position;
+    """
+    sql_query = pd.read_sql( query, cnx )
+    display(Markdown(f"**Table: {table_name}** \n"))
+    display(Markdown(tabulate(
+       sql_query,
+       headers=['Pos','Name','Type','Key','IsNull'],
+       showindex= False
+        )
+    )
+)  
+
+
+table_names = cnx.connect().execute(text("show tables"))
+for table_name in table_names:
+    if table_name[0] == 'people':
+        show_table(table_name[0])
+
 ```
 
 ### Skills table
+- The `skills` table catalogues various skills and certifications available or acquired within our company. Each skill is described along with its learning commitment and a URL for more information.
 
-The *skills* table contains elements that describe ... 
-
-Below is a list of data in the *skills* table.
 
 ```{python}
 #| echo: false
 #| eval: true
 
-## Add code to list roles table here
+sql_query = pd.read_sql("""
+select
+  *
+from 
+  information_schema.columns
+where 
+  table_schema='23FA_users_cortezaa2';
+"""
+,cnx)
+
+sql_query.head(15)
+
+def show_table( table_name ):
+    """ Show a table using Display and Markdown """
+    # Note the use of f-strings to embed the variable name.
+    query = f"""
+    select
+        ordinal_position,column_name,column_type,column_key, is_nullable
+    from
+        information_schema.columns
+    where
+    table_schema='23FA_users_cortezaa2'
+        and table_name='{table_name}'
+    order by 
+        ordinal_position;
+    """
+    sql_query = pd.read_sql( query, cnx )
+    display(Markdown(f"**Table: {table_name}** \n"))
+    display(Markdown(tabulate(
+       sql_query,
+       headers=['Pos','Name','Type','Key','IsNull'],
+       showindex= False
+        )
+    )
+)  
+
+
+table_names = cnx.connect().execute(text("show tables"))
+for table_name in table_names:
+    if table_name[0] == 'skills':
+        show_table(table_name[0])
+
 ```
 
 ### Roles table
@@ -163,8 +232,50 @@ Below is a list of data in the *roles* table.
 #| echo: false
 #| eval: true
 
-## Add code to list roles table here
+sql_query = pd.read_sql("""
+select
+  *
+from 
+  information_schema.columns
+where 
+  table_schema='23FA_users_cortezaa2';
+"""
+,cnx)
+
+sql_query.head(15)
+
+def show_table( table_name ):
+    """ Show a table using Display and Markdown """
+    # Note the use of f-strings to embed the variable name.
+    query = f"""
+    select
+        ordinal_position,column_name,column_type,column_key, is_nullable
+    from
+        information_schema.columns
+    where
+    table_schema='23FA_users_cortezaa2'
+        and table_name='{table_name}'
+    order by 
+        ordinal_position;
+    """
+    sql_query = pd.read_sql( query, cnx )
+    display(Markdown(f"**Table: {table_name}** \n"))
+    display(Markdown(tabulate(
+       sql_query,
+       headers=['Pos','Name','Type','Key','IsNull'],
+       showindex= False
+        )
+    )
+)  
+
+
+table_names = cnx.connect().execute(text("show tables"))
+for table_name in table_names:
+    if table_name[0] == 'roles':
+        show_table(table_name[0])
+
 ```
+
 
 
 ## Sample queries
@@ -173,57 +284,219 @@ Let's explore the database!
 
 # List skill names, tags, and descriptions ordered by name
 
-(here a sample query)
 
 ```{python}
-sql = f"""
-select * from people
+query = """
+SELECT name, tag, description
+FROM 23FA_users_cortezaa2.skills
+ORDER BY name;
 """
-```
 
-
-(and here is a sample result from the query)
-
-```{python}
-#| echo: false
-#| eval: true
 try:
-    df = pd.read_sql(sql,cnx)
-    df
+    df = pd.read_sql(query, cnx)
+    print(df)
 except Exception as e:
-    message = str(e)
-    print(f"An error occurred:\n\n{message}\n\nIgnoring and moving on.")
-    df = pd.DataFrame()
-df
+    print(f"An error occurred: {e}")
 
 ```
+
+
+
+
 
 
 ### List people names and email addresses ordered by last_name
+```{python}
+query = """
+SELECT first_name, last_name, email
+FROM 23FA_users_cortezaa2.people
+ORDER BY last_name;
+"""
 
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+```
 
 ### List skill names of Person 1
 
+```{python}
+query = """
+SELECT s.name
+FROM 23FA_users_cortezaa2.skills s
+JOIN peopleskills ps
+ON s.id = ps.skills_id
+WHERE ps.people_id = 1
+"""
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+```
+
 
 ### List people names with Skill 6
+```{python}
+query = """
+    SELECT p.first_name, p.last_name 
+    FROM 23FA_users_cortezaa2.people p 
+    JOIN peopleskills ps
+    ON p.id = ps.people_id 
+    WHERE ps.skills_id = 6
+"""
 
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+
+
+```
 
 ### List people with a DEVELOPER role
+```{python}
+query = """
+SELECT p.first_name, p.last_name
+FROM 23FA_users_cortezaa2.people p
+JOIN peopleroles pr ON p.id = pr.people_id
+JOIN roles r ON pr.role_id = r.id
+WHERE r.name = 'DEVELOPER';
+"""
 
+
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+```
 
 ### List names and email addresses of people without skills
 
 
+DELIMITER ;
+```{python}
+query = """
+SELECT p.first_name, p.last_name, p.email
+FROM 23FA_users_cortezaa2.people p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM 23FA_users_cortezaa2.peopleskills ps
+    WHERE p.id = ps.people_id
+);
+"""
+
+
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+```
+
 ### List names and tags of unused skills
 
+
+DELIMITER ;
+```{python}
+query = """
+SELECT s.name, s.tag
+FROM 23FA_users_cortezaa2.skills s
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM 23FA_users_cortezaa2.peopleskills ps
+    WHERE s.id = ps.skills_id
+);
+"""
+
+
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+```
 
 ### List people names and skill names with the BOSS role
 
 
+DELIMITER ;
+```{python}
+query = """
+SELECT p.first_name, p.last_name, s.name AS skill_name
+FROM 23FA_users_cortezaa2.people p
+JOIN peopleroles pr ON p.id = pr.people_id
+JOIN roles r ON pr.role_id = r.id
+JOIN peopleskills ps ON p.id = ps.people_id
+JOIN skills s ON ps.skills_id = s.id
+WHERE r.name = 'BOSS';
+"""
+
+
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+```
+
 ### List ids and names of unused roles
 
 
+```{python}
+query = ("""
+    select
+        last_name, first_name, email 
+    from
+        people 
+    order by
+        last_name
+    """)
+
+try:
+    df = pd.read_sql(query, cnx)
+    print(df)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+
+```
+
+# Calling a stored procedure and displaying its result
+```{python}
+# Name of the stored procedure
+stored_procedure_name = "MyStoredProcedure"
+
+# Format the call command
+call_command = f"CALL {stored_procedure_name}();"
+
+try:
+    # Execute the stored procedure and fetch the results
+    result = pd.read_sql(call_command, cnx)
+    print(result)
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+```
+
 ## Reflection
 
-(Write a paragraph expressing your thoughts, feelings, and insights about your experience with this assignment.  Pause and breath before writing - I'm trying to encourage critical thinking and self-awareness while allowing you to explore the connections between theory and practice. And yes, delete this paragraph.)
+This assignment was very difficult and I was not a fan of it . I had to get help for this . I also followed this bar for bar while watching the lecture video. This was something more challenging that HW6 , even though I took forever to start this , I should've started this earlier. 
 
