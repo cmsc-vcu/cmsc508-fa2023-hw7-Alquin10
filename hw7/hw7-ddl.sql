@@ -82,8 +82,7 @@ CREATE TABLE 23FA_users_cortezaa2.people (
 # Their last names must exactly be “Person 1”, “Person 2”, etc.
 # Other fields are for you to assign.
 
-INSERT INTO 23FA_users_cortezaa2.people 
-(id, first_name, last_name, email, linkedin_url, headshot_url, discord_handle, brief_bio, date_joined) VALUES
+INSERT INTO 23FA_users_cortezaa2.people (id, first_name, last_name, email, linkedin_url, headshot_url, discord_handle, brief_bio, date_joined) VALUES
 (1, 'Kevin', 'Person 11', 'kevin@email.com', 'http://linkedin.com/in/kevin', 'http://headshot11.com/', 'kevinhandle', 'Bio of Kevin', '2023-01-11'),
 (2, 'Linda', 'Person 12', 'linda@email.com', 'http://linkedin.com/in/linda', 'http://headshot12.com/', 'lindahandle', 'Bio of Linda', '2023-01-12'),
 (3, 'Michael', 'Person 13', 'michael@email.com', 'http://linkedin.com/in/michael', 'http://headshot13.com/', 'michaelhandle', 'Bio of Michael', '2023-01-13'),
@@ -94,6 +93,7 @@ INSERT INTO 23FA_users_cortezaa2.people
 (8, 'Rachel', 'Person 18', 'rachel@email.com', 'http://linkedin.com/in/rachel', 'http://headshot18.com/', 'rachelhandle', 'Bio of Rachel', '2023-01-18'),
 (9, 'Steve', 'Person 19', 'steve@email.com', 'http://linkedin.com/in/steve', 'http://headshot19.com/', 'stevehandle', 'Bio of Steve', '2023-01-19'),
 (10, 'Tina', 'Person 20', 'tina@email.com', 'http://linkedin.com/in/tina', 'http://headshot20.com/', 'tinahandle', 'Bio of Tina', '2023-01-20');
+
 # Section 6
 # Create peopleskills( id, skills_id, people_id, date_acquired )
 # None of the fields can ba NULL. ID can be auto_increment.
