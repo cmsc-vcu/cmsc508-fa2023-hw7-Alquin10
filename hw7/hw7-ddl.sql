@@ -195,7 +195,7 @@ CREATE TABLE 23FA_users_cortezaa2.peopleroles (
 # Person 8 is Designer and Team Lead
 # Person 9 is Developer
 # Person 10 is Developer and Designer
-INSERT INTO 23FA_users_cortezaa2.peopleroles (people_id, role_id, date_role_acquired) VALUES
+INSERT INTO  (people_id, role_id, date_role_acquired) VALUES
 (1, 2, '2023-01-01'), -- Person 1 is a Developer
 (2, 5, '2023-01-05'), -- Person 2 is a Boss
 (2, 6, '2023-01-10'), -- Person 2 is also a Mentor
